@@ -75,9 +75,15 @@ RRA:MIN:0.1:36:14600 \
 RRA:MAX:0.1:36:14600
 
 /usr/bin/rrdtool create $rrd_dir/node_FE.rrd  --step 600 \
-DS:setpoint_relais:GAUGE:800:0:100 \
-DS:etat_relais:GAUGE:800:0:1 \
 DS:t_avg:GAUGE:800:-40:120 \
+DS:t_avg_pc1:GAUGE:800:-40:120 \
+DS:t_avg_pc2:GAUGE:800:-40:120 \
+DS:t_avg_pc3:GAUGE:800:-40:120 \
+DS:t_avg_pc4:GAUGE:800:-40:120 \
+DS:pc1:GAUGE:800:-40:120 \
+DS:pc2:GAUGE:800:-40:120 \
+DS:pc3:GAUGE:800:-40:120 \
+DS:pc4:GAUGE:800:-40:120 \
 RRA:AVERAGE:0.5:1:8064 \
 RRA:AVERAGE:0.5:12:17520 \
 RRA:AVERAGE:0.1:36:14600 \

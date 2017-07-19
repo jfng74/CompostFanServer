@@ -90,6 +90,10 @@ TCP_PUT_RELAIS_CFG_0 = 20
 TCP_PUT_RELAIS_CFG_1 = 21
 TCP_PUT_RELAIS_CFG_2 = 22
 TCP_PUT_RELAIS_CFG_3 = 23
+TCP_GET_RELAIS_DATA_0 = 24
+TCP_GET_RELAIS_DATA_1 = 25
+TCP_GET_RELAIS_DATA_2 = 26
+TCP_GET_RELAIS_DATA_3 = 27
 
 os.chdir('/home/pi/CompostFanServer')
 
@@ -256,6 +260,97 @@ class CompostFAN:
                 connection.send(reply_string)
                 state = TCP_GET_GROUPE_SONDE_CFG_3
 
+            elif self.socket_data == 'GET_RELAIS_DATA_0':
+                print 'GET_RELAIS_DATA_0'
+                reply_string = pickle.dumps(self.lgs[0].ssr_data)
+                # print reply_string
+                connection.send(reply_string)
+                state = TCP_GET_RELAIS_DATA_0
+
+            elif self.socket_data == 'GET_RELAIS_DATA_1':
+                reply_string = pickle.dumps(self.lgs[1].ssr_data)
+                # print reply_string
+                connection.send(reply_string)
+                state = TCP_GET_RELAIS_DATA_1
+            elif self.socket_data == 'GET_RELAIS_DATA_2':
+                reply_string = pickle.dumps(self.lgs[2].ssr_data)
+                # print reply_string
+                connection.send(reply_string)
+                state = TCP_GET_RELAIS_DATA_2
+            elif self.socket_data == 'GET_RELAIS_DATA_3':
+                reply_string = pickle.dumps(self.lgs[3].ssr_data)
+                # print reply_string
+                connection.send(reply_string)
+                state = TCP_GET_RELAIS_DATA_3
+
+            elif 'GET_SONDE_1_DATA_' in self.socket_data:
+                if self.socket_data[17] == '0':
+                    print ('GET_SONDE_1_DATA_0')
+                    reply_string = pickle.dumps(self.lgs[0].list_compost_node_data[0])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '1':
+                    print ('GET_SONDE_1_DATA_1')
+                    reply_string = pickle.dumps(self.lgs[1].list_compost_node_data[0])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '2':
+                    print ('GET_SONDE_1_DATA_2')
+                    reply_string = pickle.dumps(self.lgs[2].list_compost_node_data[0])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '3':
+                    print ('GET_SONDE_1_DATA_3')
+                    reply_string = pickle.dumps(self.lgs[3].list_compost_node_data[0])
+                    connection.send(reply_string)
+            elif 'GET_SONDE_2_DATA_' in self.socket_data:
+                if self.socket_data[17] == '0':
+                    print ('GET_SONDE_2_DATA_0')
+                    reply_string = pickle.dumps(self.lgs[0].list_compost_node_data[1])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '1':
+                    print ('GET_SONDE_2_DATA_1')
+                    reply_string = pickle.dumps(self.lgs[1].list_compost_node_data[1])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '2':
+                    print ('GET_SONDE_2_DATA_2')
+                    reply_string = pickle.dumps(self.lgs[2].list_compost_node_data[1])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '3':
+                    print ('GET_SONDE_2_DATA_3')
+                    reply_string = pickle.dumps(self.lgs[3].list_compost_node_data[1])
+                    connection.send(reply_string)
+            elif 'GET_SONDE_3_DATA_' in self.socket_data:
+                if self.socket_data[17] == '0':
+                    print ('GET_SONDE_3_DATA_0')
+                    reply_string = pickle.dumps(self.lgs[0].list_compost_node_data[2])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '1':
+                    print ('GET_SONDE_3_DATA_1')
+                    reply_string = pickle.dumps(self.lgs[1].list_compost_node_data[2])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '2':
+                    print ('GET_SONDE_3_DATA_2')
+                    reply_string = pickle.dumps(self.lgs[2].list_compost_node_data[2])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '3':
+                    print ('GET_SONDE_3_DATA_3')
+                    reply_string = pickle.dumps(self.lgs[3].list_compost_node_data[2])
+                    connection.send(reply_string)
+            elif 'GET_SONDE_4_DATA_' in self.socket_data:
+                if self.socket_data[17] == '0':
+                    print ('GET_SONDE_4_DATA_0')
+                    reply_string = pickle.dumps(self.lgs[0].list_compost_node_data[3])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '1':
+                    print ('GET_SONDE_4_DATA_1')
+                    reply_string = pickle.dumps(self.lgs[1].list_compost_node_data[3])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '2':
+                    print ('GET_SONDE_4_DATA_2')
+                    reply_string = pickle.dumps(self.lgs[2].list_compost_node_data[3])
+                    connection.send(reply_string)
+                elif self.socket_data[17] == '3':
+                    print ('GET_SONDE_4_DATA_3')
+                    reply_string = pickle.dumps(self.lgs[3].list_compost_node_data[3])
+                    connection.send(reply_string)
             elif self.socket_data == 'GET_NODE_DATA':
 #                print ('GET_NODE_DATA')
                 reply_string = pickle.dumps(self.compost_fan_data)
@@ -732,76 +827,95 @@ class CompostFAN:
                                     self.lgs[cur_groupe_sonde].list_compost_node_data[x].ntc_2 = temp_data
                                     print ('Node ' + str(x) + ' : ntc_2 : '
                                            + str(self.lgs[cur_groupe_sonde].list_compost_node_data[x].ntc_2))
+
                                     # Lecture de bme_humidity
                                     b_bytes = self.ser.read(4)
                                     temp_data = self.read_float(b_bytes)
                                     self.lgs[cur_groupe_sonde].list_compost_node_data[x].bme_humidity = temp_data
                                     print ('Node ' + str(x) + ' : bme_humidity : '
                                            + str(self.lgs[cur_groupe_sonde].list_compost_node_data[x].bme_humidity))
+
                                     # Lecture de bme_temp
                                     b_bytes = self.ser.read(4)
                                     temp_data = self.read_float(b_bytes)
                                     self.lgs[cur_groupe_sonde].list_compost_node_data[x].bme_temp = temp_data
                                     print ('Node ' + str(x) + ' : bme_temp : '
                                            + str(self.lgs[cur_groupe_sonde].list_compost_node_data[x].bme_temp))
+
                                     # Lecture de bme_pression
                                     b_bytes = self.ser.read(4)
                                     temp_data = self.read_float(b_bytes)
                                     self.lgs[cur_groupe_sonde].list_compost_node_data[x].bme_pression = temp_data
                                     print ('Node ' + str(x) + ' : bme_pression : '
                                            + str(self.lgs[cur_groupe_sonde].list_compost_node_data[x].bme_pression))
+
                                     # Lecture de conductivite
                                     b_bytes = self.ser.read(2)
                                     temp_data = self.read_uint16(b_bytes)
                                     self.lgs[cur_groupe_sonde].list_compost_node_data[x].conductivite = temp_data
                                     print ('Node ' + str(x) + ' : conductivite : '
                                            + str(self.lgs[cur_groupe_sonde].list_compost_node_data[x].conductivite))
+
                                     # Lecture de batt_voltage
                                     b_bytes = self.ser.read(4)
                                     temp_data = self.read_float(b_bytes)
                                     self.lgs[cur_groupe_sonde].list_compost_node_data[x].batt_voltage = temp_data
                                     print ('Node ' + str(x) + ' : batt_voltage : '
                                            + str(self.lgs[cur_groupe_sonde].list_compost_node_data[x].batt_voltage))
+
                                     # Lecture de delay_minutes
                                     b_bytes = self.ser.read(1)
                                     temp_data = self.read_uint8(b_bytes)
                                     self.lgs[cur_groupe_sonde].list_compost_node_data[x].delay_minutes = temp_data
                                     print ('Node ' + str(x) + ' : delay_minutes : '
                                            + str(self.lgs[cur_groupe_sonde].list_compost_node_data[x].delay_minutes))
+
                                     # Lecture de txpower
                                     b_bytes = self.ser.read(1)
                                     temp_data = self.read_uint8(b_bytes)
                                     self.lgs[cur_groupe_sonde].list_compost_node_data[x].txpower = temp_data
                                     print ('Node ' + str(x) + ' : txpower : '
                                            + str(self.lgs[cur_groupe_sonde].list_compost_node_data[x].txpower))
+
                                     # Lecture de last_rssi
                                     b_bytes = self.ser.read(1)
                                     temp_data = self.read_int8(b_bytes)
                                     self.lgs[cur_groupe_sonde].list_compost_node_data[x].last_rssi = temp_data
                                     print ('Node ' + str(x) + ' : last_rssi : '
                                            + str(self.lgs[cur_groupe_sonde].list_compost_node_data[x].last_rssi))
+
                                     # Lecture de new_data
                                     b_bytes = self.ser.read(1)
                                     temp_data = self.read_uint8(b_bytes)
                                     self.lgs[cur_groupe_sonde].list_compost_node_data[x].new_data = temp_data
                                     print ('Node ' + str(x) + ' : new_data : '
                                            + str(self.lgs[cur_groupe_sonde].list_compost_node_data[x].new_data))
+
                                     # Lecture de clock_ok
                                     b_bytes = self.ser.read(1)
                                     temp_data = self.read_uint8(b_bytes)
                                     self.lgs[cur_groupe_sonde].list_compost_node_data[x].clock_ok = temp_data
                                     print ('Node ' + str(x) + ' : clock_ok : '
                                            + str(self.lgs[cur_groupe_sonde].list_compost_node_data[x].clock_ok))
+
+                                # Lecture du timestamp du relais
+                                b_bytes = self.ser.read(4)
+                                temp_data = self.read_uint32(b_bytes)
+                                self.lgs[cur_groupe_sonde].ssr_data.timestamp = temp_data
+                                print ('timestamp_relais :' + str(self.lgs[cur_groupe_sonde].ssr_data.timestamp))
+
                                 # Lecture de t_avg
                                 b_bytes = self.ser.read(4)
                                 temp_data = self.read_float(b_bytes)
                                 self.lgs[cur_groupe_sonde].ssr_data.t_avg = temp_data
                                 print ('t_avg :' + str(self.lgs[cur_groupe_sonde].ssr_data.t_avg))
+
                                 # Lecture de current_PC
                                 b_bytes = self.ser.read(1)
                                 temp_data = self.read_uint8(b_bytes)
                                 self.lgs[cur_groupe_sonde].ssr_data.current_PC = temp_data
                                 print ('current_PC : ' + str(self.lgs[cur_groupe_sonde].ssr_data.current_PC))
+
                                 # Lecture de ssr_state
                                 b_bytes = self.ser.read(1)
                                 temp_data = self.read_uint8(b_bytes)
@@ -816,10 +930,27 @@ class CompostFAN:
                                 # Ecriture des donnes dans le fichier CSV
                                 now = datetime.datetime.now()
                                 date_now = now.strftime("%m-%Y")
+                                sonde_1_timestamp = self.lgs[cur_groupe_sonde].list_compost_node_data[0].timestamp
+                                sonde_1_datetime = datetime.datetime.fromtimestamp(sonde_1_timestamp)
+                                sonde_2_timestamp = self.lgs[cur_groupe_sonde].list_compost_node_data[1].timestamp
+                                sonde_2_datetime = datetime.datetime.fromtimestamp(sonde_2_timestamp)
+                                sonde_3_timestamp = self.lgs[cur_groupe_sonde].list_compost_node_data[2].timestamp
+                                sonde_3_datetime = datetime.datetime.fromtimestamp(sonde_3_timestamp)
+                                sonde_4_timestamp = self.lgs[cur_groupe_sonde].list_compost_node_data[3].timestamp
+                                sonde_4_datetime = datetime.datetime.fromtimestamp(sonde_4_timestamp)
+                                relais_timestamp = self.lgs[cur_groupe_sonde].ssr_data.timestamp
+                                relais_datetime = datetime.datetime.fromtimestamp(relais_timestamp)
+
                                 if os.path.exists(compost_csv_directory + str(cur_groupe_sonde+1) + '/'):
                                     with open(compost_csv_directory + str(cur_groupe_sonde+1) + '/' + compost_csv_filename + '_' + date_now + '.csv', 'ab') as csvfile:
                                         compost_data_writer = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-                                        compost_data_writer.writerow([timestamp,
+                                        compost_data_writer.writerow([self.lgs[cur_groupe_sonde].node_fan_address,
+                                                                    relais_datetime.strftime("%Y-%m-%d %H:%M:%S"),
+                                                                      "{0:.2f}".format(self.lgs[cur_groupe_sonde].ssr_data.t_avg),
+                                                                      '{:02d}'.format(self.lgs[cur_groupe_sonde].ssr_data.current_PC),
+                                                                      '{:02d}'.format(self.lgs[cur_groupe_sonde].ssr_data.ssr_state),
+                                                                      self.lgs[cur_groupe_sonde].nfc.node_compost_txt_0,
+                                                                        sonde_1_datetime.strftime("%Y-%m-%d %H:%M:%S"),
                                                                       '{:02d}'.format(
                                                                           self.lgs[cur_groupe_sonde].list_compost_node_data[
                                                                               0].node_address),
@@ -853,6 +984,8 @@ class CompostFAN:
                                                                       "{:02d}".format(
                                                                           self.lgs[cur_groupe_sonde].list_compost_node_data[
                                                                               0].new_data),
+                                                                      self.lgs[cur_groupe_sonde].nfc.node_compost_txt_1,
+                                                                        sonde_2_datetime.strftime("%Y-%m-%d %H:%M:%S"),
                                                                       '{:02d}'.format(
                                                                           self.lgs[cur_groupe_sonde].list_compost_node_data[
                                                                               1].node_address),
@@ -886,6 +1019,8 @@ class CompostFAN:
                                                                       "{:02d}".format(
                                                                           self.lgs[cur_groupe_sonde].list_compost_node_data[
                                                                               1].new_data),
+                                                                      self.lgs[cur_groupe_sonde].nfc.node_compost_txt_2,
+                                                                     sonde_3_datetime.strftime("%Y-%m-%d %H:%M:%S"),
                                                                       '{:02d}'.format(
                                                                           self.lgs[cur_groupe_sonde].list_compost_node_data[
                                                                               2].node_address),
@@ -919,6 +1054,8 @@ class CompostFAN:
                                                                       "{:02d}".format(
                                                                           self.lgs[cur_groupe_sonde].list_compost_node_data[
                                                                               2].new_data),
+                                                                      self.lgs[cur_groupe_sonde].nfc.node_compost_txt_3,
+                                                                        sonde_4_datetime.strftime("%Y-%m-%d %H:%M:%S"),
                                                                       '{:02d}'.format(
                                                                           self.lgs[cur_groupe_sonde].list_compost_node_data[
                                                                               3].node_address),
@@ -951,10 +1088,7 @@ class CompostFAN:
                                                                               3].txpower),
                                                                       "{:02d}".format(
                                                                           self.lgs[cur_groupe_sonde].list_compost_node_data[
-                                                                              3].new_data),
-                                                                      "{0:.2f}".format(self.lgs[cur_groupe_sonde].ssr_data.t_avg),
-                                                                      '{:02d}'.format(self.lgs[cur_groupe_sonde].ssr_data.current_PC),
-                                                                      '{:02d}'.format(self.lgs[cur_groupe_sonde].ssr_data.ssr_state)])
+                                                                              3].new_data)]),
                                 else:
                                     print ("Ne peut pas ouvrir le fichier : " + compost_csv_directory + str(cur_groupe_sonde+1) + '/')
                                 # Ecriture des donnees dans un fichier rrd
@@ -1636,8 +1770,8 @@ class CompostFAN:
 
     def set_relais_date_time(self, node_id):
         utc = int(time.time())
-        local = utc - (60*60*5)
-        ba = bytearray(struct.pack('i', local))
+#        local = utc - (60*60*5)
+        ba = bytearray(struct.pack('i', utc))
         b_array_set_message_data = bytearray(8)
         b_array_set_message_data[0] = FEATHER_MSG_HEADER
         b_array_set_message_data[1] = FEATHER_MSG_SET_CLOCK
